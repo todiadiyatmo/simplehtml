@@ -13,11 +13,26 @@ class block_simplehtml extends block_base {
  
     $this->content         =  new stdClass;
     
-    $this->content->text   = 'The content of our SimpleHTML block! ';
-    
+    ob_start();
+
+    ?>
+
+    <h1>Ini adalah block</h1>
+
+    <span>
+    <?php
     if (! empty($this->config->text)) {   
-    	$this->content->text = $this->content->text."<br>".$this->config->text;
+    	echo $this->config->text;  
 	}
+	?>
+	</span>
+
+    <?php
+	 
+	$output = ob_get_contents();
+	ob_end_clean();
+
+	$this->content->text   = $output;
     $this->content->footer = 'Footer here...';
  
     return $this->content;
